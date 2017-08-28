@@ -1,0 +1,22 @@
+{
+  "name": "okapi",
+  "version": "1.0.0",
+  "description": "Integration testing framework based on puppeteer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent Billey",
+  "license": "MIT",
+  "dependencies": {
+    "fetch-vcr": "^1.1.1",
+    "puppeteer": "^0.10.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.5.0",
+    "eslint-plugin-prettier": "^2.2.0",
+    "jest": "^20.0.4",
+    "prettier": "^1.6.0"
+  }
+}
