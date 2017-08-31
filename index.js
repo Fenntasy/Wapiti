@@ -38,6 +38,7 @@ const Okapi = {
           try {
             await page.goto(args[0], { waitUntil: "networkidle" });
           } catch (e) {
+            // eslint-disable-next-line no-console
             console.warn("Error trying to go to the page", args[0], e);
           }
           break;
@@ -45,6 +46,7 @@ const Okapi = {
           try {
             await page.click(...args);
           } catch (e) {
+            // eslint-disable-next-line no-console
             console.warn("Error trying to click on ", args[0], e);
           }
           break;
@@ -53,13 +55,14 @@ const Okapi = {
             const result = await page.evaluate(...args);
             results.push(result);
           } catch (e) {
+            // eslint-disable-next-line no-console
             console.warn("Error trying to evaluate function", e);
           }
           break;
         default:
           break;
       }
-    };
+    }
     browser.close();
 
     if (results.length === 1) {

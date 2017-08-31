@@ -1,3 +1,5 @@
+/* global test expect document */
+
 const path = require("path");
 const Okapi = require("../index");
 

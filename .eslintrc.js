@@ -3,7 +3,10 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: "eslint:recommended",
+  extends: [
+    "eslint:recommended",
+    "prettier"
+  ],
   parser: "babel-eslint",
   parserOptions: {
     sourceType: "module"
@@ -11,9 +14,5 @@ module.exports = {
   plugins: ["prettier"],
   rules: {
     "prettier/prettier": "error",
-    indent: ["error", 4],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "double"],
-    semi: ["error", "always"]
   }
 };
