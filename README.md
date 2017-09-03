@@ -82,3 +82,8 @@ Allows you to use the puppeteer API yourself.
 #### Okapi.run()
 
 Really start the chain of events and return a promise with that should resolve with either the result of the `capture` call or an array with the results of the `capture` calls.
+
+
+## To Do
+
+* Add a VCR to deal with API
