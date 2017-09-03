@@ -35,6 +35,28 @@ Go to a URL and resolve when there is no more network requests.
 
 Click on the first result returned by `document.querySelector(selector)`.
 
+`Okapi.insert(selector, value)`
+
+Will insert `value` in the input found by `selector`.
+
+`Okapi.fillForm(data)`
+
+Handle the work of filling a form and submiting it.
+`data` is an object with input selectors as key and the desired input value as value.
+
+
+```javascript
+Okapi.prepare()
+  .goto("http://localhost"))
+  .fillForm({
+    "#firstInput": "test1", // will result in <input id="firstInput" value="test1" />
+    ".secondInput": "test2" // will result in <input class="secondInput" value="test2" />
+  })
+```
+
+The form in which these input belong will then be submitted and the resulting page will be waited for.
+Please note that this function will only work if there is a real navigation occuring, if the submit event is hijacked, you will need to use `Okapi.insert` and `Okapi.click` instead.
+
 `Okapi.capture(func)`
 
 Execute `func` on the current page and add an entry to the end result.
@@ -49,8 +71,3 @@ Allows you to use the puppeteer API yourself.
 `Okapi.run()`
 
 Really start the chain of events and return a promise with that should resolve with either the result of the `capture` call or an array with the results of the `capture` calls.
-
-## Todo
-
-* [x] low level API to access puppeteer primitives
-* [ ] fillForm function that takes an objet with selector as key and input value as value

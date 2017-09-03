@@ -1,3 +1,4 @@
+/* global document */
 const puppeteer = require("puppeteer");
 
 puppeteer.launch().then(async browser => {
@@ -24,9 +25,40 @@ const Okapi = {
     this.commands.push(page => page.click(selector, options));
     return this;
   },
+  insert(selector, value) {
+    this.commands.push(async page => {
+      await page.focus(selector);
+      await page.type(value);
+      return page;
+    });
+    return this;
+  },
+  fillForm(options) {
+    const selectors = Object.keys(options);
+    this.commands.push(async page => {
+      for (let i = 0; i < selectors.length; i++) {
+        await page.focus(selectors[i]);
+        await page.type(options[selectors[i]]);
+      }
+      await page.evaluate(
+        firstInput => document.querySelector(firstInput).form.submit(),
+        selectors[0]
+      );
+      await page.waitForNavigation({ waitUntil: "networkidle" });
+      return page;
+    });
+    return this;
+  },
   capture(func) {
     this.commands.push(async (page, results) => {
       results.push(await page.evaluate(func));
+      return page;
+    });
+    return this;
+  },
+  captureUrl() {
+    this.commands.push(async (page, results) => {
+      results.push(await page.url());
       return page;
     });
     return this;
