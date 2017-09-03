@@ -7,6 +7,8 @@ The goal is to be able to use the VCR pattern in order to first mock the API on 
 
 ## Example
 
+In theory, you could use Okapi with any test framework, here is an example with [Jest](https://facebook.github.io/jest/)
+
 ```javascript
 const path = require("path");
 const Okapi = require("../index");
