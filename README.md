@@ -33,6 +33,7 @@ test("it should get the content of elements of the page", async () => {
 * [Okapi.insert(selector, value)](#okapiinsertselector-value)
 * [Okapi.fillForm(data)](#okapifillformdata)
 * [Okapi.capture(func)](#okapicapturefunc)
+* [Okapi.captureUrl()](#okapicaptureurl)
 * [Okapi.puppeteer(func)](#okapipuppeteerfunc)
 * [Okapi.run()](#okapirun)
 
@@ -75,6 +76,11 @@ Please note that this function will only work if there is a real navigation occu
 Execute `func` on the current page and add an entry to the end result.
 If only one `capture` call is done, the end result will be its value.
 If several calls are made, the end result will be an array with all captures.
+
+#### Okapi.captureUrl()
+
+Convenience function for getting the URL of the page and adding it to the captures.
+Functionnally equivalent to `Okapi.capture(() => document.location.href)`
 
 #### Okapi.puppeteer(func)
 
