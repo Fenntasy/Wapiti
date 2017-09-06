@@ -22,6 +22,16 @@ test("it should get the content of elements of the page", async () => {
     .run();
   expect(result).toEqual(["content of h1", "content of h2"]);
 });
+
+// And with VCR
+test("it should use the Okapi fetch", async () => {
+  const result = await Okapi.setupVCR()
+    .goto("file://" + path.join(__dirname, "fetch.html")) // will try to fetch "https://api.github.com/users/github"
+    .capture(() => document.querySelector("#result").textContent)
+    .run();
+
+  expect(result).toEqual("9919"); // ID of github user on github
+});
 ```
 
 ## API
