@@ -3,7 +3,8 @@
 Integration testing based on [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 Okapi is aimed at single page apps that rely on APIs.
-The goal is to be able to use the VCR pattern in order to first mock the API on your local tests and then be able to commit the results and test it on your continuous integration.
+The goal is to be able to use the [VCR pattern](https://github.com/vcr/vcr) in order to first mock the API on your local tests and then be able to commit the results and test it on your continuous integration.
+VCR is optional and can be setup for each tests.
 
 ## Example
 
@@ -28,9 +29,10 @@ test("it should get the content of elements of the page", async () => {
 ##### Table of Contents
 
 * [Okapi.prepare()](#okapiprepare)
+* [Okapi.setupVCR(options)](#okapisetupvcroptions)
 * [Okapi.goto(url)](#okapigotourl)
 * [Okapi.click(selector)](#okapiclickselector)
-* [Okapi.insert(selector, value)](#okapiinsertselector-value)
+* [Okapi.typeIn(selector, value)](#okapitypeinselector-value)
 * [Okapi.fillForm(data)](#okapifillformdata)
 * [Okapi.capture(func)](#okapicapturefunc)
 * [Okapi.captureUrl()](#okapicaptureurl)
@@ -41,6 +43,18 @@ test("it should get the content of elements of the page", async () => {
 
 Start the chain of events you want to send for your test.
 
+#### Okapi.setupVCR(options)
+
+Use the VCR for this test.
+
+`options` can be omited and defaults to `{fixturePath: "./_fixtures", mode: "cache"}`.
+The `fixturePath` will be created if it does not exists and can be an absolute or relative path (starting from where you launch your tests).
+`mode` can be either `cache` (attempts to read from the VCR and fetch it if not present), `record` (always fetch and record) or `playback` (always read from the VCR).
+
+The VCR mode is still in development and will only work with calls done with `fetch` in your web app.
+Furthermore, the promise produced by `fetch` can only use the `json` and `text` function in the ensuing `then`.
+Please make an issue if you need something else.
+
 #### Okapi.goto(url)
 
 Go to a URL and resolve when there is no more network requests.
@@ -49,7 +63,7 @@ Go to a URL and resolve when there is no more network requests.
 
 Click on the first result returned by `document.querySelector(selector)`.
 
-#### Okapi.insert(selector, value)
+#### Okapi.typeIn(selector, value)
 
 Will insert `value` in the input found by `selector`.
 
@@ -60,8 +74,7 @@ Handle the work of filling a form and submiting it.
 
 
 ```javascript
-Okapi.prepare()
-  .goto("http://localhost"))
+Okapi.goto("http://localhost"))
   .fillForm({
     "#firstInput": "test1", // will result in <input id="firstInput" value="test1" />
     ".secondInput": "test2" // will result in <input class="secondInput" value="test2" />
@@ -85,13 +98,15 @@ Functionnally equivalent to `Okapi.capture(() => document.location.href)`
 #### Okapi.puppeteer(func)
 
 Allows you to use the puppeteer API yourself.
-`func` will be passed the `page` object and you can use any method of the [puppeteer API](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md)
+`func` will be passed the `page` object and you can use any method of the [puppeteer API](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md).
+
+In most cases, you should not need to wait for something with Okapi (the defaults try to be enough) but if you need it, you can do it like this:
+
+```javascript
+Okapi.goto("http://localhost"))
+  .puppeteer(page => page.waitFor(2000))
+```
 
 #### Okapi.run()
 
 Really start the chain of events and return a promise with that should resolve with either the result of the `capture` call or an array with the results of the `capture` calls.
-
-
-## To Do
-
-* Add a VCR to deal with API

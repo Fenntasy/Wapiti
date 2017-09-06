@@ -1,13 +1,12 @@
 /* global test expect document */
 
 const path = require("path");
-const Okapi = require("../index");
+const Okapi = require("../../index");
 
 test("it should get the content of elements of the page", async () => {
-  const result = await Okapi.prepare()
-    .puppeteer(page =>
-      page.goto("file://" + path.join(__dirname, "getH1.html"))
-    )
+  const result = await Okapi.goto(
+    "file://" + path.join(__dirname, "getH1.html")
+  )
     .capture(() => document.querySelector("h1").textContent)
     .capture(() => document.querySelector("h2").textContent)
     .run();

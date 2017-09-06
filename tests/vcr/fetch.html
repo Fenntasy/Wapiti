@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<div id="result"></div>
+<script>
+fetch("https://api.github.com/users/github")
+  .then(data => data.json())
+  .then(user => {
+    document.querySelector("#result").innerHTML = user.id;
+  });
+</script>
