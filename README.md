@@ -1,5 +1,8 @@
 # Okapi
 
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Big_game_hunting_in_Africa_and_other_lands%3B_the_appearance%2C_habits%2C_traits_of_character_and_every_detail_of_wild_animal_life_%281910%29_%2820181998430%29.jpg/300px-Big_game_hunting_in_Africa_and_other_lands%3B_the_appearance%2C_habits%2C_traits_of_character_and_every_detail_of_wild_animal_life_%281910%29_%2820181998430%29.jpg)
+
+
 Integration testing based on [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 Okapi is aimed at single page apps that rely on APIs.
