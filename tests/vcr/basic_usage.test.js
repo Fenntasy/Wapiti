@@ -1,10 +1,10 @@
 /* global test expect document */
 
 const path = require("path");
-const Okapi = require("../../index");
+const Wapiti = require("../../index");
 
-test("it should use the Okapi fetch", async () => {
-  const result = await Okapi.setupVCR()
+test("it should use the Wapiti fetch", async () => {
+  const result = await Wapiti.setupVCR()
     .goto("file://" + path.join(__dirname, "fetch.html"))
     .capture(() => document.querySelector("#result").textContent)
     .run();

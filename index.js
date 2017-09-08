@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const puppeteer = require("puppeteer");
 const fetch = require("fetch-vcr");
 
-const Okapi = (function() {
+const Wapiti = (function() {
   let commands = [];
   const VCR = {
     active: false,
@@ -83,10 +83,10 @@ const Okapi = (function() {
           fixturePath: VCR.fixturePath,
           mode: VCR.mode
         });
-        await page.exposeFunction("OkapiFetchVCR", fetch);
+        await page.exposeFunction("WapitiFetchVCR", fetch);
         await page.evaluateOnNewDocument(() => {
           window.fetch = (...args) =>
-            window.OkapiFetchVCR(...args).then(data => {
+            window.WapitiFetchVCR(...args).then(data => {
               data.json = () =>
                 new Promise((resolve, reject) => {
                   try {
@@ -112,7 +112,7 @@ const Okapi = (function() {
       }
       browser.close();
 
-      // Reset Okapi
+      // Reset Wapiti
       commands = [];
       VCR.active = false;
 
@@ -121,4 +121,4 @@ const Okapi = (function() {
   };
 })();
 
-module.exports = Okapi;
+module.exports = Wapiti;

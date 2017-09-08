@@ -1,10 +1,10 @@
 /* global test expect */
 
 const path = require("path");
-const Okapi = require("../../index");
+const Wapiti = require("../../index");
 
 test("it should get the content of elements of the page", async () => {
-  const result = await Okapi.goto(
+  const result = await Wapiti.goto(
     "file://" + path.join(__dirname, "form1.html")
   )
     .fillForm({
