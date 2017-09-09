@@ -1,7 +1,7 @@
-/* global document window */
+/* global document window fetch */
 const fs = require("fs-extra");
+const path = require("path");
 const puppeteer = require("puppeteer");
-const fetch = require("fetch-vcr");
 
 const Wapiti = (function() {
   let commands = [];
@@ -79,27 +79,45 @@ const Wapiti = (function() {
 
       const results = [];
       if (VCR.active) {
-        fetch.configure({
-          fixturePath: VCR.fixturePath,
-          mode: VCR.mode
-        });
-        await page.exposeFunction("WapitiFetchVCR", fetch);
-        await page.evaluateOnNewDocument(() => {
-          window.fetch = (...args) =>
-            window.WapitiFetchVCR(...args).then(data => {
-              data.json = () =>
-                new Promise((resolve, reject) => {
-                  try {
-                    const json = JSON.parse(data.body);
-                    resolve(json);
-                  } catch (e) {
-                    reject(e);
-                  }
-                });
-              data.text = Promise.resolve(data.body);
-              return data;
-            });
-        });
+        await page.exposeFunction("readfile", async (root, filename) =>
+          new Promise((resolve, reject) =>
+            fs.readFile(
+              path.join(__dirname, root, filename),
+              "utf8",
+              (err, text) => {
+                if (err) reject(err);
+                else resolve(text);
+              }
+            )
+          ).catch(() => {})
+        );
+        await page.exposeFunction("writefile", async (root, filename, buffer) =>
+          new Promise((resolve, reject) =>
+            fs.writeFile(
+              path.join(__dirname, root, filename),
+              buffer,
+              (err, text) => {
+                if (err) reject(err);
+                else resolve(text);
+              }
+            )
+          ).catch(() => {})
+        );
+        const fetchVCR = await new Promise((resolve, reject) =>
+          fs.readFile(
+            "fetch-vcr-browser-bundle.js",
+            "utf8",
+            (err, data) => (err ? reject(err) : resolve(data))
+          )
+        );
+        await page.evaluateOnNewDocument(fetchVCR);
+        await page.evaluateOnNewDocument(VCR => {
+          window.fetch = window.fetchVCR;
+          fetch.configure({
+            fixturePath: VCR.fixturePath,
+            mode: VCR.mode
+          });
+        }, VCR);
       }
 
       for (let i = 0; i < commands.length; i++) {
