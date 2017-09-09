@@ -1,6 +1,6 @@
 {
   "name": "wapiti",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Integration testing framework based on puppeteer",
   "homepage": "https://github.com/Fenntasy/wapiti",
   "repository": {
@@ -14,7 +14,6 @@
   "author": "Vincent Billey",
   "license": "MIT",
   "dependencies": {
-    "fetch-vcr": "^1.1.1",
     "fs-extra": "^4.0.1",
     "puppeteer": "^0.10.1"
   },
@@ -23,6 +22,7 @@
     "eslint": "^4.5.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-prettier": "^2.2.0",
+    "fetch-vcr": "^1.1.1",
     "jest": "^21.0.1",
     "prettier": "^1.6.0"
   }
