@@ -1,5 +1,7 @@
 # Wapiti
 
+[![Build Status](https://travis-ci.org/Fenntasy/Wapiti.svg?branch=master)](https://travis-ci.org/Fenntasy/Wapiti)
+
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/The_deer_of_all_lands_%281898%29_Altai_wapiti.png/207px-The_deer_of_all_lands_%281898%29_Altai_wapiti.png)
 
 Integration testing based on [Puppeteer](https://github.com/GoogleChrome/puppeteer).
