@@ -1,7 +1,45 @@
-/* global document window fetch */
+/* global document window */
 const fs = require("fs-extra");
 const path = require("path");
 const puppeteer = require("puppeteer");
+
+const readFile = (root, filename) =>
+  new Promise((resolve, reject) =>
+    fs.readFile(
+      path.join(__dirname, root, filename),
+      "utf8",
+      (err, text) => (err ? reject(err) : resolve(text))
+    )
+  ).catch(() => {});
+
+const writeFile = (root, filename, buffer) =>
+  new Promise((resolve, reject) =>
+    fs.writeFile(
+      path.join(__dirname, root, filename),
+      buffer,
+      (err, text) => (err ? reject(err) : resolve(text))
+    )
+  ).catch(() => {});
+
+const setupVCR = (browser, page, VCR) =>
+  page
+    .exposeFunction("readfile", readFile)
+    .then(() => page.exposeFunction("writefile", writeFile))
+    .then(() => readFile(".", "fetch-vcr-browser-bundle.js"))
+    .then(fetchVCR => page.evaluateOnNewDocument(fetchVCR))
+    .then(() =>
+      page.evaluateOnNewDocument(VCR => {
+        window.fetch = window.fetchVCR;
+        window.fetch.configure({
+          fixturePath: VCR.fixturePath,
+          mode: VCR.mode
+        });
+      }, VCR)
+    )
+    .then(() => [browser, page]);
+
+const foldP = (pred, list) =>
+  list.reduce((acc, elt) => acc.then(() => pred(elt)), Promise.resolve());
 
 const Wapiti = (function() {
   let commands = [];
@@ -36,105 +74,59 @@ const Wapiti = (function() {
       return this;
     },
     typeIn(selector, value) {
-      commands.push(async page => {
-        await page.focus(selector);
-        await page.type(value);
-        return page;
-      });
+      commands.push(page => page.focus(selector).then(() => page.type(value)));
       return this;
     },
     fillForm(options) {
       const selectors = Object.keys(options);
-      commands.push(async page => {
-        for (let i = 0; i < selectors.length; i++) {
-          await page.focus(selectors[i]);
-          await page.type(options[selectors[i]]);
-        }
-        await page.evaluate(
-          firstInput => document.querySelector(firstInput).form.submit(),
-          selectors[0]
-        );
-        await page.waitForNavigation({ waitUntil: "networkidle" });
-        return page;
-      });
+      commands.push(page =>
+        foldP(
+          selector =>
+            page.focus(selector).then(() => page.type(options[selector])),
+          selectors
+        )
+          .then(() =>
+            page.evaluate(
+              firstInput => document.querySelector(firstInput).form.submit(),
+              selectors[0]
+            )
+          )
+          .then(() => page.waitForNavigation({ waitUntil: "networkidle" }))
+      );
       return this;
     },
     capture(func) {
-      commands.push(async (page, results) => {
-        results.push(await page.evaluate(func));
-        return page;
-      });
+      commands.push((page, results) =>
+        page.evaluate(func).then(evaluation => results.push(evaluation))
+      );
       return this;
     },
     captureUrl() {
-      commands.push(async (page, results) => {
-        results.push(await page.url());
-        return page;
-      });
+      commands.push((page, results) => results.push(page.url()));
       return this;
     },
-    run: async function() {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
+    run: function() {
+      return puppeteer
+        .launch()
+        .then(browser => Promise.all([browser, browser.newPage()]))
+        .then(
+          ([browser, page]) =>
+            VCR.active ? setupVCR(browser, page, VCR) : [browser, page]
+        )
+        .then(([browser, page]) => {
+          let results = [];
+          return foldP(command => command(page, results), commands)
+            .then(() => {
+              browser.close();
 
-      const results = [];
-      if (VCR.active) {
-        await page.exposeFunction("readfile", async (root, filename) =>
-          new Promise((resolve, reject) =>
-            fs.readFile(
-              path.join(__dirname, root, filename),
-              "utf8",
-              (err, text) => {
-                if (err) reject(err);
-                else resolve(text);
-              }
-            )
-          ).catch(() => {})
-        );
-        await page.exposeFunction("writefile", async (root, filename, buffer) =>
-          new Promise((resolve, reject) =>
-            fs.writeFile(
-              path.join(__dirname, root, filename),
-              buffer,
-              (err, text) => {
-                if (err) reject(err);
-                else resolve(text);
-              }
-            )
-          ).catch(() => {})
-        );
-        const fetchVCR = await new Promise((resolve, reject) =>
-          fs.readFile(
-            "fetch-vcr-browser-bundle.js",
-            "utf8",
-            (err, data) => (err ? reject(err) : resolve(data))
-          )
-        );
-        await page.evaluateOnNewDocument(fetchVCR);
-        await page.evaluateOnNewDocument(VCR => {
-          window.fetch = window.fetchVCR;
-          fetch.configure({
-            fixturePath: VCR.fixturePath,
-            mode: VCR.mode
-          });
-        }, VCR);
-      }
-
-      for (let i = 0; i < commands.length; i++) {
-        try {
-          await commands[i](page, results);
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn(e);
-        }
-      }
-      browser.close();
-
-      // Reset Wapiti
-      commands = [];
-      VCR.active = false;
-
-      return Promise.resolve(results.length === 1 ? results[0] : results);
+              // Reset Wapiti
+              commands = [];
+              VCR.active = false;
+            })
+            .then(() =>
+              Promise.resolve(results.length === 1 ? results[0] : results)
+            );
+        });
     }
   };
 })();
