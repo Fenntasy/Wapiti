@@ -74,17 +74,13 @@ const Wapiti = (function() {
       return this;
     },
     typeIn(selector, value) {
-      commands.push(page => page.focus(selector).then(() => page.type(value)));
+      commands.push(page => page.type(selector, value));
       return this;
     },
     fillForm(options) {
       const selectors = Object.keys(options);
       commands.push(page =>
-        foldP(
-          selector =>
-            page.focus(selector).then(() => page.type(options[selector])),
-          selectors
-        )
+        foldP(selector => page.type(selector, options[selector]), selectors)
           .then(() =>
             page.evaluate(
               firstInput => document.querySelector(firstInput).form.submit(),
