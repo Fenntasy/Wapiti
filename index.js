@@ -101,9 +101,9 @@ const Wapiti = (function() {
       commands.push((page, results) => results.push(page.url()));
       return this;
     },
-    run: function() {
+    run: function(puppeteerOptions = {}) {
       return puppeteer
-        .launch()
+        .launch(puppeteerOptions)
         .then(browser => Promise.all([browser, browser.newPage()]))
         .then(
           ([browser, page]) =>
