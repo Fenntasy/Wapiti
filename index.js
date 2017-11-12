@@ -50,31 +50,32 @@ const Wapiti = (function() {
   };
 
   return {
-    setupVCR(options = {}) {
-      VCR.active = true;
-      if (options.fixturePath) {
-        VCR.fixturePath = options.fixturePath;
-      }
-      if (options.mode) {
-        VCR.mode = options.mode;
-      }
-      fs.ensureDir(VCR.fixturePath);
+    capture(func) {
+      commands.push((page, results) =>
+        page.evaluate(func).then(evaluation => results.push(evaluation))
+      );
       return this;
     },
-    puppeteer(fun) {
-      commands.push(page => fun(page));
-      return this;
-    },
-    goto(url) {
-      commands.push(page => page.goto(url, { waitUntil: "networkidle" }));
+    captureUrl() {
+      commands.push((page, results) =>
+        Promise.resolve(results.push(page.url()))
+      );
       return this;
     },
     click(selector, options = { button: "left", clickCount: 1, delay: 0 }) {
       commands.push(page => page.click(selector, options));
       return this;
     },
-    typeIn(selector, value) {
-      commands.push(page => page.type(selector, value));
+    clickAndWaitForNewTab(
+      selector,
+      options = { button: "left", clickCount: 1, delay: 0 }
+    ) {
+      commands.push((page, _, browser) => {
+        page.click(selector, options);
+        return new Promise(resolve => {
+          browser.on("targetcreated", resolve);
+        });
+      });
       return this;
     },
     fillForm(options) {
@@ -87,31 +88,77 @@ const Wapiti = (function() {
               selectors[0]
             )
           )
-          .then(() => page.waitForNavigation({ waitUntil: "networkidle" }))
+          .then(() => page.waitForNavigation({ waitUntil: "networkidle0" }))
       );
       return this;
     },
-    capture(func) {
-      commands.push((page, results) =>
-        page.evaluate(func).then(evaluation => results.push(evaluation))
-      );
+    goto(url) {
+      commands.push(page => page.goto(url, { waitUntil: "networkidle0" }));
       return this;
     },
-    captureUrl() {
-      commands.push((page, results) => results.push(page.url()));
+    nextTab() {
+      commands.push((page, _, browser) => {
+        return browser.pages().then(pages => {
+          if (pages.length === 1) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              "Warning, attempting to change tab when there is only one \n" +
+                "You may need to call clickAndWaitForNewTab() before switching tab"
+            );
+          }
+          return {
+            newWapitiPage:
+              pages[(pages.findIndex(p => p === page) + 1) % pages.length]
+          };
+        });
+      });
+      return this;
+    },
+    previousTab() {
+      commands.push((page, _, browser) => {
+        return browser.pages().then(pages => {
+          if (pages.length === 1) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              "Warning, attempting to change tab when there is only one \n" +
+                "You may need to call clickAndWaitForNewTab() before switching tab"
+            );
+          }
+          return {
+            newWapitiPage:
+              pages[
+                Math.abs(pages.findIndex(p => p === page) - 1) % pages.length
+              ]
+          };
+        });
+      });
+      return this;
+    },
+    puppeteer(fun) {
+      commands.push((page, _, browser) => Promise.resolve(fun(page, browser)));
       return this;
     },
     run: function() {
       return puppeteer
         .launch()
-        .then(browser => Promise.all([browser, browser.newPage()]))
+        .then(browser => Promise.all([browser, browser.pages()]))
+        .then(([browser, pages]) => [browser, pages[0]])
         .then(
           ([browser, page]) =>
             VCR.active ? setupVCR(browser, page, VCR) : [browser, page]
         )
         .then(([browser, page]) => {
           let results = [];
-          return foldP(command => command(page, results), commands)
+          return foldP(
+            command =>
+              command(page, results, browser).then(data => {
+                if (data !== undefined && data.newWapitiPage !== undefined) {
+                  page = data.newWapitiPage;
+                }
+                return Promise.resolve();
+              }),
+            commands
+          )
             .then(() => {
               browser.close();
 
@@ -123,6 +170,21 @@ const Wapiti = (function() {
               Promise.resolve(results.length === 1 ? results[0] : results)
             );
         });
+    },
+    setupVCR(options = {}) {
+      VCR.active = true;
+      if (options.fixturePath) {
+        VCR.fixturePath = options.fixturePath;
+      }
+      if (options.mode) {
+        VCR.mode = options.mode;
+      }
+      fs.ensureDir(VCR.fixturePath);
+      return this;
+    },
+    typeIn(selector, value) {
+      commands.push(page => page.type(selector, value));
+      return this;
     }
   };
 })();
