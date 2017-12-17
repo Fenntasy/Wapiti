@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Wapiti Blog</title>
+        <link>https://fenntasy.github.io/blog</link>
+        <description>The best place to stay up-to-date with the latest Wapiti news and events.</description>
+        <lastBuildDate>Sun, 17 Dec 2017 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>Wapiti Blog</title>
+            <url>https://fenntasy.github.ioimg/logo.jpg</url>
+            <link>https://fenntasy.github.io/blog</link>
+        </image>
+        <copyright>Copyright © 2017 Your Name or Your Company Name</copyright>
+        <item>
+            <title><![CDATA[Launching the documentation]]></title>
+            <link>https://fenntasy.github.io/blog/2017/12/17/launching-docs.html</link>
+            <guid>https://fenntasy.github.io/blog/2017/12/17/launching-docs.html</guid>
+            <pubDate>Sun, 17 Dec 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[
+To honor the Open Sourcing of Docusaurus, I decided to try it for myself with this documentation.
+It revealed harder than I previously thought.
+
+]]></description>
+        </item>
+    </channel>
+</rss>

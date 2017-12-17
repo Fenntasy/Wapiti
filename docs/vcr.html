@@ -1,0 +1,40 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Use with APIs · Wapiti</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Use with APIs · Wapiti"/><meta property="og:type" content="website"/><meta property="og:url" content="https://fenntasy.github.io/wapiti/index.html"/><meta property="og:description" content="Wapiti has a built-in replacement of `fetch` that use the VCR pattern but it must be activated with the `setupVCR` method."/><link rel="shortcut icon" href="/wapiti/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css"/><link rel="alternate" type="application/atom+xml" href="https://fenntasy.github.io/blog/atom.xml" title="Wapiti Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://fenntasy.github.io/blog/feed.xml" title="Wapiti Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/wapiti/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/wapiti/"><img class="logo" src="/wapiti/img/logo.jpg"/><h2 class="headerTitle">Wapiti</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/wapiti/docs/install.html" target="_self">Docs</a></li><li><a href="/wapiti/docs/api.html" target="_self">API</a></li><li><a href="/wapiti/blog" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Guides</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/wapiti/docs/install.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/wapiti/docs/why.html">Why Wapiti?</a></li></ul></div><div class="navGroup navGroupActive"><h3>Guides</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/wapiti/docs/vcr.html">Use with APIs</a></li><li class="navListItem"><a class="navItem" href="/wapiti/docs/tabs.html">Multiple tabs</a></li></ul></div><div class="navGroup navGroupActive"><h3>API Reference</h3><ul><li class="navListItem"><a class="navItem" href="/wapiti/docs/api.html">All methods</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Use with APIs</h1></header><article><div><span><p>Wapiti has a built-in replacement of <code>fetch</code> that use the VCR pattern but it must be activated with the <code>setupVCR</code> method.
+The idea is that running your test locally a first time will record all calls made with fetch to any API and store the results in a fixture directory.</p>
+<p>When you run your test after that, the recorded calls will be played back.
+That way, you can safely commit you fixtures and have you tests run on your continous integration without having to launch your APIs.</p>
+<blockquote>
+<p>⚠️ Note that by default, the headers <code>authorization</code> and <code>user-agent</code> are ignored but URL parameters are saved in the fixtures files.
+Take care to not set API key or access tokens in the URL.</p>
+<p>See <a href="/wapiti/docs/api.html#wapitisetupvcroptions">the setupVCR method</a> for more information</p>
+</blockquote>
+<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> Wapiti = <span class="hljs-built_in">require</span>(<span class="hljs-string">"wapiti"</span>);
+
+test(<span class="hljs-string">"it should use the Wapiti fetch"</span>, () =&gt; {
+  <span class="hljs-keyword">return</span> Wapiti.setupVCR()
+    .goto(<span class="hljs-string">"http://localhost:3000"</span>) <span class="hljs-comment">// will try to fetch "https://api.github.com/users/github"</span>
+    .capture(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"#result"</span>).textContent)
+    .run()
+    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+      expect(result).toEqual(<span class="hljs-string">"9919"</span>); <span class="hljs-comment">// ID of github user on github</span>
+    });
+});
+</code></pre>
+<p>Or if you prefer <em>async/await</em></p>
+<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> Wapiti = <span class="hljs-built_in">require</span>(<span class="hljs-string">"wapiti"</span>);
+
+test(<span class="hljs-string">"it should use the Wapiti fetch"</span>, <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> Wapiti.setupVCR()
+    .goto(<span class="hljs-string">"http://localhost:3000"</span>) <span class="hljs-comment">// will try to fetch "https://api.github.com/users/github"</span>
+    .capture(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"#result"</span>).textContent)
+    .run();
+
+  expect(result).toEqual(<span class="hljs-string">"9919"</span>); <span class="hljs-comment">// ID of github user on github</span>
+});
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="why.html">← Why Wapiti?</a><a class="docs-next button" href="tabs.html">Multiple tabs →</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/wapiti/" class="nav-home"><img src="/wapiti/img/logo.jpg" alt="Wapiti" width="66" height="58"/></a><div><h5>Docs</h5><a href="/wapiti/docs/en/install.html">Getting Started</a><a href="/wapiti/docs/vcr.html">Guides</a><a href="/wapiti/docs/en/api.html">API Reference</a></div><div><h5>More</h5><a href="/wapiti/blog">Blog</a><a href="https://github.com/">GitHub</a><a class="github-button" href="git@github.com:Fenntasy/Wapiti.git" data-icon="octicon-star" data-count-href="/Fenntasy/Wapiti/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section></footer></div></body></html>
