@@ -139,8 +139,10 @@ const Wapiti = (function() {
       return this;
     },
     run: function() {
+      const noSandbox = process.env.IN_CI || process.env.IN_DOCKER;
+      const options = noSandbox ? { args: ["--no-sandbox"] } : {};
       return puppeteer
-        .launch()
+        .launch(options)
         .then(browser => Promise.all([browser, browser.pages()]))
         .then(([browser, pages]) => [browser, pages[0]])
         .then(

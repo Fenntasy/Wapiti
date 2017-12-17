@@ -5,11 +5,15 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
+    "plugin:react/recommended",
     "prettier"
   ],
   parser: "babel-eslint",
   parserOptions: {
-    sourceType: "module"
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true
+    }
   },
   plugins: ["prettier"],
   rules: {
