@@ -9,10 +9,10 @@
         <generator>Feed for Node.js</generator>
         <image>
             <title>Wapiti Blog</title>
-            <url>https://Fenntasy.github.ioimg/logo.jpg</url>
+            <url>https://Fenntasy.github.ioimg/wapiti.png</url>
             <link>https://Fenntasy.github.io/blog</link>
         </image>
-        <copyright>Copyright © 2017 Your Name or Your Company Name</copyright>
+        <copyright>Copyright © 2018 Your Name or Your Company Name</copyright>
         <item>
             <title><![CDATA[Launching the documentation]]></title>
             <link>https://Fenntasy.github.io/blog/2017/12/17/launching-docs.html</link>
