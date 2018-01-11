@@ -18,7 +18,7 @@ You can also read more on [why this project exists](docs/WHY.md)
 
 ## Documentation
 
-You can read all documentation on the [API page](docs/API.md).
+You can read all documentation on the [website](https://Fenntasy.github.io/Wapiti).
 
 You can also check the [tests folder](tests/) for more examples.
 
@@ -28,7 +28,7 @@ In theory, you could use Wapiti with any test framework, here is an example with
 
 ```javascript
 const path = require("path");
-const Wapiti = require("../index");
+const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", async () => {
   const result = await Wapiti.goto("file://" + path.join(__dirname, "getH1.html"))

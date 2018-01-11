@@ -1,4 +1,8 @@
-# Why?
+---
+id: why
+title: Why Wapiti?
+sidebar_label: Why Wapiti?
+---
 
 There is a lot of projects that do integration tests that are really more mature than Wapiti and maybe you should look them up (not exhaustive list: [Nightwatch.js](http://nightwatchjs.org/), [Nightmare](http://www.nightmarejs.org/), [CasperJS](http://casperjs.org/), [Protractor](http://www.protractortest.org/#/)).
 

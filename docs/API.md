@@ -1,6 +1,10 @@
-# API
+---
+id: api
+title: API
+sidebar_label: All methods
+---
 
-##### Table of Contents
+## Methods
 
 * [Wapiti.capture(func)](#wapiticapturefunc)
 * [Wapiti.captureUrl()](#wapiticaptureurl)
@@ -88,13 +92,24 @@ Really start the chain of events and return a promise with that should resolve w
 
 Use the VCR for this test.
 
-`options` can be omited and defaults to `{fixturePath: "./_fixtures", mode: "cache"}`.
+`options` can be omited and defaults to:
+
+```javascript
+{
+  fixturePath: "./_fixtures",
+  mode: "cache",
+  headerBlacklist: ["authorization", "user-agent"]
+}
+```
+
 The `fixturePath` will be created if it does not exists and can be an absolute or relative path (starting from where you launch your tests).
 `mode` can be either `cache` (attempts to read from the VCR and fetch it if not present), `record` (always fetch and record) or `playback` (always read from the VCR).
 
 The VCR mode is still in development and will only work with calls done with `fetch` in your web app.
 Furthermore, the promise produced by `fetch` can only use the `json` and `text` function in the ensuing `then`.
 Please make an issue if you need something else.
+
+`headerBlacklist` is an array of keys that will be ignored in the fixtures and the request (whichever value they have will not be taken into account). These keys must be lowercase.
 
 #### Wapiti.typeIn(selector, value)
 
