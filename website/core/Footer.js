@@ -26,8 +26,8 @@ class Footer extends React.Component {
               href={
                 this.props.config.baseUrl +
                 "docs/" +
-                this.props.language +
-                "/install.html"
+                // this.props.language +
+                "install.html"
               }
             >
               Getting Started
@@ -37,8 +37,8 @@ class Footer extends React.Component {
               href={
                 this.props.config.baseUrl +
                 "docs/" +
-                this.props.language +
-                "/api.html"
+                // this.props.language +
+                "api.html"
               }
             >
               API Reference
