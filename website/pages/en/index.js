@@ -38,7 +38,7 @@ class HomeSplash extends React.Component {
           <div className="wrapper homeWrapper">
             <div className="inner">
               <h2 className="projectTitle">
-                {siteConfig.title}
+                <img src={siteConfig.baseUrl + "img/wapiti.png"} />
                 <small>{siteConfig.tagline}</small>
               </h2>
 
