@@ -1,8 +1,8 @@
 # Wapiti
 
-[![Build Status](https://travis-ci.org/Fenntasy/Wapiti.svg?branch=master)](https://travis-ci.org/Fenntasy/Wapiti)
+[![Build Status](https://travis-ci.org/Fenntasy/Wapiti.svg?branch=master)](https://travis-ci.org/Fenntasy/Wapiti) [Documentation](https://Fenntasy.github.io/Wapiti)
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/The_deer_of_all_lands_%281898%29_Altai_wapiti.png/207px-The_deer_of_all_lands_%281898%29_Altai_wapiti.png)
+[![](https://fenntasy.github.io/Wapiti/img/wapiti.png)](https://Fenntasy.github.io/Wapiti)
 
 Integration testing based on [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
@@ -10,7 +10,7 @@ Wapiti is aimed at single page apps that rely on APIs.
 The goal is to be able to use the [VCR pattern](https://github.com/vcr/vcr) in order to first mock the API on your local tests and then be able to commit the results and test it on your continuous integration.
 VCR is optional and can be setup for each tests.
 
-You can also read more on [why this project exists](docs/WHY.md)
+You can also read more on [why this project exists](https://fenntasy.github.io/Wapiti/docs/why.html)
 
 ## Installation
 

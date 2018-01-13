@@ -29,8 +29,8 @@ const siteConfig = {
   ],
   users,
   /* path to images for header/footer */
-  headerIcon: "img/wapiti.png",
-  footerIcon: "img/wapiti.png",
+  headerIcon: "img/favicon.png",
+  footerIcon: "img/favicon.png",
   favicon: "img/favicon.png",
   /* colors for website */
   colors: {
