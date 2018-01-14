@@ -1802,6 +1802,11 @@ footer .copyright {
 
 /* your custom css */
 
+hr {
+  margin: 2em 0;
+  opacity: 0.1;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 

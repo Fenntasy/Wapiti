@@ -1,0 +1,87 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>v2.0.0 Better form support · Wapiti</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="v2.0.0 Better form support · Wapiti"/><meta property="og:type" content="website"/><meta property="og:url" content="https://Fenntasy.github.io/Wapiti/blog/2018/01/14/hijacked-forms.html"/><meta property="og:description" content="A major update that updates the API for `fillForm` and updates Puppeteer to 1.0.0."/><link rel="shortcut icon" href="/Wapiti/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css"/><link rel="alternate" type="application/atom+xml" href="https://Fenntasy.github.io/blog/atom.xml" title="Wapiti Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://Fenntasy.github.io/blog/feed.xml" title="Wapiti Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/Wapiti/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/Wapiti/"><img class="logo" src="/Wapiti/img/favicon.png"/><h2 class="headerTitle">Wapiti</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/Wapiti/docs/install.html" target="_self">Docs</a></li><li><a href="/Wapiti/docs/api.html" target="_self">API</a></li><li><a href="/Wapiti/blog" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Recent Posts</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Recent Posts</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/Wapiti/blog/2018/01/14/hijacked-forms.html">v2.0.0 Better form support</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer documentContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1><a href="/Wapiti/blog/2018/01/14/hijacked-forms.html">v2.0.0 Better form support</a></h1><p class="post-meta">January 14, 2018</p><div class="authorBlock"><p class="post-authorName"><a href="http://twitter.com/Fenntasy" target="_blank">Vincent Billey</a></p></div></header><div><span><p>A major update that updates the API for <code>fillForm</code> and updates Puppeteer to 1.0.0.</p>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" name="tl-dr"></a><a href="#tl-dr" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TL;DR;</h2>
+<ul>
+<li><code>fillForm</code> has a new optional parameter to cancel submit or not wait for a new page (if the submit event is <code>preventDefault()</code>)</li>
+<li>Updated to Puppeteer 1.0.0</li>
+<li>Wapiti should be able to run on CI or inside Docker with the environnement variables IN_CI or IN_DOCKER</li>
+<li>Docs are improved</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" name="what-happened-and-why"></a><a href="#what-happened-and-why" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What happened and why</h2>
+<p>It was recently pointed to me (by the creator of the new logo) that there is a problem with the <code>fillForm</code> API.</p>
+<p>My original intent was to make it easier for forms to be filled out, by passing an object with selectors as keys and values as what was going in those field and submiting the form.</p>
+<p>All that is good and all, but I forgot something, or more accurately, I assumed that a form would always trigger a new page so I used a <code>waitForNavigation</code> internally.</p>
+<p>Aside from that, I used to have a method called <code>insert</code> that would correct something I found tedious in the old Puppeteer API: to fill an input, you first had to <code>focus</code> on it then use <code>type</code>.
+So I made <code>insert</code> that was doing the combination of the two with just a selector and a value.
+But Puppeteer updated itself to have the <code>type</code> function do just that so I renamed it <code>typeIn</code> to match the naming of Puppeteer.</p>
+<p>And then I made two mistakes:</p>
+<ul>
+<li>Assuming that the form would trigger a new page when you could want your form to be submitted but without going to another page (like a lot of SPA nowadays) and assuming on top of that that in that case, you wouldn't want to use the <code>fillForm</code> function.</li>
+<li>Not changing the documentation to reflect the renaming of <code>insert</code> and still referencing it for <code>fillForm</code>.</li>
+</ul>
+<p>With this new version, I intend to change a bit the <code>fillForm</code> API to add a new optional parameter.</p>
+<h3><a class="anchor" aria-hidden="true" name="fillform-options"></a><a href="#fillform-options" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fillForm options</h3>
+<p>There is now an optional object that you can pass as a second parameter to <code>fillForm</code> where you can decide if the form will be submitted or not and if Wapiti needs to wait for a new page to load.</p>
+<p>I thought of three scenarios.
+The first one is the one I had in mind first: you want to fill in a form that will be submitted on a new page, nothing change here, this is still the default:</p>
+<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+  .fillForm({
+    <span class="hljs-string">"#firstInput"</span>: <span class="hljs-string">"test1"</span>,
+    <span class="hljs-string">".secondInput"</span>: <span class="hljs-string">"test2"</span>
+  })
+</code></pre>
+<p>The second one is when you want the form to be submitted but the event will be prevented (by <code>event.preventDefault()</code>), be it from a React/Vue/Angular/jQuery app.
+You just need to set the <code>waitForPageLoad</code> parameter to <code>false</code>:</p>
+<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+  .fillForm({
+    <span class="hljs-string">"#firstInput"</span>: <span class="hljs-string">"test1"</span>,
+    <span class="hljs-string">".secondInput"</span>: <span class="hljs-string">"test2"</span>
+  }, { <span class="hljs-attr">waitForPageLoad</span>: <span class="hljs-literal">false</span> })
+</code></pre>
+<p>The last scenario I can see is that you just want to fill in some inputs and have nothing else done afterwards.
+You need to set <code>submitForm</code> to <code>false</code> and there will no need to wait for any page load.</p>
+<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+  .fillForm({
+    <span class="hljs-string">"#firstInput"</span>: <span class="hljs-string">"test1"</span>,
+    <span class="hljs-string">".secondInput"</span>: <span class="hljs-string">"test2"</span>
+  }, { <span class="hljs-attr">submitForm</span>: <span class="hljs-literal">false</span> })
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" name="how-to-submit-a-form"></a><a href="#how-to-submit-a-form" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to submit a form</h3>
+<p>I learned a lot of things coding this.</p>
+<p>My previous approach for sending forms was to select the first input I was given with <code>document.querySelector</code> and then getting its <code>form</code> property to finally calll <code>.submit()</code> on it.
+I am sad to see that this method does not trigger the <code>onSubmit</code> event from the form.</p>
+<p>This method could not be used anymore to manage controlled forms.</p>
+<p>The simple solution is then to query for something to submit, like <code>[type=&quot;submit&quot;]</code> and then click on it.
+This works for (I think) a lot of cases but there is the case where you don't have an explicit button or input with a <code>type=&quot;submit&quot;</code> attribute.</p>
+<p>What then? Well, I tried adding a button I created myself to the form to click on it.
+I thought I was clever but then I remembered it would not work for frameworks with a virtual DOM (I know it would not work for React or Elm at least).</p>
+<p>So I researched how to simulate a press of the Enter key.
+And... I couldn't do it!
+Believe me, I tried to find a way of doing that myself inside of Chrome (using Puppeteer, I don't need an all browser solution) but I really don't know how to use <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent">KeyBoardEvent</a>.
+At least not inside an input.</p>
+<p>If you have done this feat, please contact me with an example on <a href="https://twitter.com/Fenntasy">twitter</a>, I would love to know!</p>
+<p>So... No way?
+Well, yeah, but not a perfect one: Puppeteer gives us a function to press the Enter key so the only difficulty was to get the right input to use it on.</p>
+<p>So my approach is now to check if there is a <code>[type=&quot;submit&quot;]</code> to click and do it if I found one, then I try to find a text input and then a password input.
+If I find one of these two, I press Enter on it and it should submit the form, otherwise I display a warning.</p>
+<p>I'll try to do better in the future if I find a new way but for the moment, it passes my tests.</p>
+<h2><a class="anchor" aria-hidden="true" name="updating-puppeteer-to-100"></a><a href="#updating-puppeteer-to-100" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Updating Puppeteer to 1.0.0</h2>
+<p>This is just a formality but what drove me to bump Wapiti version to 2.0.0.
+Because it's a major upgrade of Puppeteer, so using the <code>.puppeteer</code> method could be broken on some tests.</p>
+<p>Other than that, nothing broke on my part because I don't use a lot of internals of Puppeteer at the moment.</p>
+<h2><a class="anchor" aria-hidden="true" name="ci-and-docker"></a><a href="#ci-and-docker" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CI and Docker</h2>
+<p>Running Chrome headless on some environment needs to use a flag for Puppeteer.
+I don't pretend to know all that is done but Chrome need to be run with the <code>--no-sandbox</code> flag.</p>
+<p>So I added it if either <code>IN_CI</code> or <code>IN_DOCKER</code> are found in the environement variables when running the tests.</p>
+<h2><a class="anchor" aria-hidden="true" name="improved-documentation"></a><a href="#improved-documentation" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Improved Documentation</h2>
+<p>As you can see here, Wapiti is now using Docusaurus for its documentation and I added some guides to be more friendly to newcomers.</p>
+<p>The last addition is a guide to <a href="/Wapiti/docs/debug.html">debug your pages</a>, namely to see the <code>console.log</code> calls from inside the tested pages and see the HTML of your page.</p>
+<hr>
+<p>I hope this helps everyone who would want to use Wapiti 🙂.</p>
+</span></div></div></div><div class="blog-recent"><a class="button" href="/Wapiti/blog">Recent Posts</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/Wapiti/" class="nav-home"><img src="/Wapiti/img/favicon.png" alt="Wapiti" width="66" height="58"/></a><div><h5>Docs</h5><a href="/Wapiti/docs/install.html">Getting Started</a><a href="/Wapiti/docs/vcr.html">Guides</a><a href="/Wapiti/docs/api.html">API Reference</a></div><div><h5>More</h5><a href="https://github.com/">GitHub</a><a class="github-button" href="git@github.com:Fenntasy/Wapiti.git" data-icon="octicon-star" data-count-href="/Fenntasy/Wapiti/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section></footer></div></body></html>

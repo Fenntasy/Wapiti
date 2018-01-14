@@ -2,21 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Fenntasy.github.io/blog</id>
     <title>Wapiti Blog</title>
-    <updated>2017-12-17T06:00:00Z</updated>
+    <updated>2018-01-14T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://Fenntasy.github.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Wapiti news and events.</subtitle>
     <logo>https://Fenntasy.github.ioimg/favicon.png</logo>
     <rights>Copyright © 2018 Your Name or Your Company Name</rights>
     <entry>
-        <title type="html"><![CDATA[Launching the documentation]]></title>
-        <id>https://Fenntasy.github.io/blog/2017/12/17/launching-docs.html</id>
-        <link href="https://Fenntasy.github.io/blog/2017/12/17/launching-docs.html">
+        <title type="html"><![CDATA[v2.0.0 Better form support]]></title>
+        <id>https://Fenntasy.github.io/blog/2018/01/14/hijacked-forms.html</id>
+        <link href="https://Fenntasy.github.io/blog/2018/01/14/hijacked-forms.html">
         </link>
-        <updated>2017-12-17T06:00:00Z</updated>
+        <updated>2018-01-14T06:00:00Z</updated>
         <summary type="html"><![CDATA[
-To honor the Open Sourcing of Docusaurus, I decided to try it for myself with this documentation.
-It revealed harder than I previously thought.
+A major update that updates the API for `fillForm` and updates Puppeteer to 1.0.0.
 
 ]]></summary>
         <author>
