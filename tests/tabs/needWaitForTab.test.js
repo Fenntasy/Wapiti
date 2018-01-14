@@ -3,6 +3,8 @@
 const path = require("path");
 const Wapiti = require("wapiti");
 
+jest.setTimeout(12000);
+
 test("it should get the content of elements of the page", async () => {
   expect.assertions(2);
   let output = undefined;

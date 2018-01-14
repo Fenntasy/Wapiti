@@ -1,3 +1,10 @@
+# v2.0.0
+
+- `fillForm` has a new optional parameter to cancel submit or not wait for a new page (if the submit event is `preventDefault()`)
+- Bump Puppeteer to 1.0.0
+- Wapiti should be able to run on CI or inside Docker with the environnement variables IN_CI or IN_DOCKER
+- Docs are improved
+
 # v1.3.0
 
 - ([#16](https://github.com/Fenntasy/Wapiti/pull/3) Add support of tabs

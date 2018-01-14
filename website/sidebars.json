@@ -1,7 +1,7 @@
 {
   "docs": {
     "Getting Started": ["install", "why"],
-    "Guides": ["vcr", "tabs"],
+    "Guides": ["vcr", "tabs", "debug"],
     "API Reference": ["api"]
   }
 }
