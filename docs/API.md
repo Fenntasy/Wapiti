@@ -10,7 +10,7 @@ sidebar_label: All methods
 * [Wapiti.captureUrl()](#wapiticaptureurl)
 * [Wapiti.click(selector)](#wapiticlickselector)
 * [Wapiti.clickAndWaitForNewTab(selector)](#wapiticlickandwaitfornewtabselector)
-* [Wapiti.fillForm(data)](#wapitifillformdata)
+* [Wapiti.fillForm(data, options)](#wapitifillformdata-options)
 * [Wapiti.goto(url)](#wapitigotourl)
 * [Wapiti.nextTab()](#wapitinexttab)
 * [Wapiti.previousTab()](#wapitiprevioustab)
@@ -19,27 +19,37 @@ sidebar_label: All methods
 * [Wapiti.setupVCR(options)](#wapitisetupvcroptions)
 * [Wapiti.typeIn(selector, value)](#wapititypeinselector-value)
 
+---
+
 #### Wapiti.capture(func)
 
 Execute `func` on the current page and add an entry to the end result.
 If only one `capture` call is done, the end result will be its value.
 If several calls are made, the end result will be an array with all captures.
 
+---
+
 #### Wapiti.captureUrl()
 
 Convenience function for getting the URL of the page and adding it to the captures.
-Functionnally equivalent to `Wapiti.capture(() => document.location.href)`
+Functionnally equivalent to `Wapiti.capture(() => document.location.href)`.
+
+---
 
 #### Wapiti.click(selector)
 
 Click on the first result returned by `document.querySelector(selector)`.
+
+---
 
 #### Wapiti.clickAndWaitForNewTab(selector)
 
 Click on the first result returned by `document.querySelector(selector)` and wait for a tab to be opened before doing the rest of operations.
 Beware that it will wait until your test timeout if no new tab is opened.
 
-#### Wapiti.fillForm(data)
+---
+
+#### Wapiti.fillForm(data, options)
 
 Handle the work of filling a form and submiting it.
 `data` is an object with input selectors as key and the desired input value as value.
@@ -54,11 +64,34 @@ Wapiti.goto("http://localhost"))
 ```
 
 The form in which these input belong will then be submitted and the resulting page will be waited for.
-Please note that this function will only work if there is a real navigation occuring, if the submit event is hijacked, you will need to use `Wapiti.insert` and `Wapiti.click` instead.
+
+`fillForm` has a second optional parameter which is an object with these options:
+
+| parameter       | type    | description                      | default |
+|-----------------|---------|----------------------------------|---------|
+| submitForm      | Boolean | will the form be submitted       | true    |
+| waitForPageLoad | Boolean | will wait for a new page load    | true    |
+
+So if you want to fill in a form where the submit is prevented from JavaScript ([more in-depth explanation](/Wapiti/blog/2018/01/13/hijacked-forms.html)):
+
+```javascript
+Wapiti.goto("http://localhost"))
+  .fillForm({
+    "#firstInput": "test1",
+    ".secondInput": "test2"
+  }, { waitForPageLoad: false })
+```
+
+> ⚠️  `waitForPageLoad` depends on `submitForm` and will be ignored if `submitForm` is false.
+
+---
+
 
 #### Wapiti.goto(url)
 
 Go to a URL and resolve when there is no more network requests.
+
+---
 
 #### Wapiti.nextTab()
 
@@ -66,11 +99,15 @@ Change tab by going to the next one.
 If the browser was already on the last tab, it will go back to the first one.
 If there is only one tab open, it will not do anything but display a warning.
 
+---
+
 #### Wapiti.previousTab()
 
 Change tab by going to the previous one.
 If the browser was already on the first tab, it will go to the last one.
 If there is only one tab open, it will not do anything but display a warning.
+
+---
 
 #### Wapiti.puppeteer(func)
 
@@ -84,9 +121,13 @@ Wapiti.goto("http://localhost"))
   .puppeteer(page => page.waitFor(2000))
 ```
 
+---
+
 #### Wapiti.run()
 
 Really start the chain of events and return a promise with that should resolve with either the result of the `capture` call or an array with the results of the `capture` calls.
+
+---
 
 #### Wapiti.setupVCR(options)
 
@@ -110,6 +151,8 @@ Furthermore, the promise produced by `fetch` can only use the `json` and `text` 
 Please make an issue if you need something else.
 
 `headerBlacklist` is an array of keys that will be ignored in the fixtures and the request (whichever value they have will not be taken into account). These keys must be lowercase.
+
+---
 
 #### Wapiti.typeIn(selector, value)
 

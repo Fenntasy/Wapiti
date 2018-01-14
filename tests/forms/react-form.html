@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Form extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { value: "", otherValue: "" };
+        }
+        handleChange = (event) => {
+          this.setState({ value: event.target.value });
+        }
+        handleSubmit = (event) => {
+          event.preventDefault();
+          this.setState({ otherValue: this.state.value });
+        }
+        render() {
+          return (
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <input id="myInput" type="text" value={this.state.value} onChange={this.handleChange} />
+              </form>
+              <div id="data">{this.state.otherValue}</div>
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(
+        <Form />,
+        document.getElementById('root')
+      );
+
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      To set up a production-ready React build environment, follow these instructions:
+      * https://reactjs.org/docs/add-react-to-a-new-app.html
+      * https://reactjs.org/docs/add-react-to-an-existing-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      * https://reactjs.org/docs/react-without-jsx.html
+      * https://reactjs.org/docs/cdn-links.html
+    -->
+  </body>
+</html>

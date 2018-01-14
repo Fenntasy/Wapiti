@@ -6,6 +6,7 @@
     "tagline": "Integration tests for API based frontend",
     "api": "API",
     "All methods": "All methods",
+    "debug": "Debug your pages",
     "install": "Installation",
     "tabs": "Multiple tabs",
     "vcr": "Use with APIs",
@@ -13,6 +14,7 @@
     "Why Wapiti?": "Why Wapiti?",
     "Docs": "Docs",
     "API": "API",
+    "Blog": "Blog",
     "Getting Started": "Getting Started",
     "Guides": "Guides",
     "API Reference": "API Reference"

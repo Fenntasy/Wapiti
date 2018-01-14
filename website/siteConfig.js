@@ -24,8 +24,8 @@ const siteConfig = {
   projectName: "wapiti",
   headerLinks: [
     { doc: "install", label: "Docs" },
-    { doc: "api", label: "API" }
-    // { blog: false, label: "Blog" }
+    { doc: "api", label: "API" },
+    { blog: true, label: "Blog" }
   ],
   users,
   /* path to images for header/footer */

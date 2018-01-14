@@ -78,17 +78,61 @@ const Wapiti = (function() {
       });
       return this;
     },
-    fillForm(options) {
-      const selectors = Object.keys(options);
+    fillForm(formValues, options = {}) {
+      const { submitForm = true, waitForPageLoad = true } = options;
+      if (waitForPageLoad && !submitForm) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "Warning: waitForPageLoad is set to true but submitForm is not" +
+            "\nwaitForPageLoad is only here to wait for a page load and won't be used if the form is not submitted"
+        );
+      }
+      const selectors = Object.keys(formValues);
       commands.push(page =>
-        foldP(selector => page.type(selector, options[selector]), selectors)
-          .then(() =>
-            page.evaluate(
-              firstInput => document.querySelector(firstInput).form.submit(),
-              selectors[0]
-            )
-          )
-          .then(() => page.waitForNavigation({ waitUntil: "networkidle0" }))
+        foldP(
+          selector => page.type(selector, formValues[selector]),
+          selectors
+        ).then(
+          () =>
+            submitForm
+              ? page
+                  .evaluateHandle(firstInput => {
+                    const form = document.querySelector(firstInput).form;
+                    const submitElm = form.querySelector('[type="submit"]');
+                    if (submitElm) {
+                      submitElm.click();
+                      return "clicked";
+                    } else {
+                      const input = form.querySelector('input[type="text"]');
+                      if (input) {
+                        return input;
+                      }
+                      const password = form.querySelector(
+                        'input[type="password"]'
+                      );
+                      if (password) {
+                        return password;
+                      }
+                      return false;
+                    }
+                  }, selectors[0])
+                  .then(result => {
+                    if (result._remoteObject.value === "false") {
+                      // eslint-disable-next-line no-console
+                      console.warn("Warning: found no way to submit the form");
+                    } else if (result._remoteObject.value !== "clicked") {
+                      return result.press("Enter");
+                    }
+                    return;
+                  })
+                  .then(
+                    () =>
+                      waitForPageLoad
+                        ? page.waitForNavigation({ waitUntil: "networkidle0" })
+                        : page.waitFor(200)
+                  )
+              : page.waitFor(200)
+        )
       );
       return this;
     },

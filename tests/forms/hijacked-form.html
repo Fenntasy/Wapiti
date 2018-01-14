@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<form id="form" method="get" action="form2.html">
+  <input type="text" id="firstInput" name="first" />
+  <input type="text" class="secondInput" name="second" />
+  <input type="submit" value="submit" />
+</form>
+<div id="data"></div>
+<script>
+document.querySelector("#form")
+  .addEventListener("submit", function(event) {
+    event.preventDefault();
+    const firstValue = document.querySelector("#firstInput").value;
+    const secondValue = document.querySelector(".secondInput").value;
+    document.querySelector("#data").innerHTML = firstValue + "|" + secondValue;
+  });
+</script>

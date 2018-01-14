@@ -1,7 +1,9 @@
-/* global test expect */
+/* global jest test expect */
 
 const path = require("path");
 const Wapiti = require("../../index");
+
+jest.setTimeout(12000);
 
 test("it should get the content of elements of the page", async () => {
   expect.assertions(1);
