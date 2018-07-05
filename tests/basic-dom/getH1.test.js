@@ -3,13 +3,12 @@
 const path = require("path");
 const Wapiti = require("../../index");
 
-jest.setTimeout(12000);
+jest.setTimeout(30000);
 
 test("it should get the content of elements of the page", async () => {
   expect.assertions(1);
-  const result = await Wapiti.goto(
-    "file://" + path.join(__dirname, "getH1.html")
-  )
+  const result = await Wapiti()
+    .goto("file://" + path.join(__dirname, "getH1.html"))
     .capture(() => document.querySelector("h1").textContent)
     .capture(() => document.querySelector("h2").textContent)
     .run();
