@@ -1,7 +1,8 @@
-/* global document window */
+/* global window */
 const fs = require("fs-extra");
 const path = require("path");
 const puppeteer = require("puppeteer");
+const { submitFormAndWait } = require("./dom");
 
 const readFile = (root, filename) =>
   new Promise((resolve, reject) =>
@@ -41,42 +42,40 @@ const setupVCR = (browser, page, VCR) =>
 const foldP = (pred, list) =>
   list.reduce((acc, elt) => acc.then(() => pred(elt)), Promise.resolve());
 
-const Wapiti = (function() {
-  let commands = [];
-  const VCR = {
-    active: false,
-    fixturePath: "./_fixtures",
-    mode: "cache"
-  };
-
+const Wapiti = function() {
   return {
+    _commands: [],
+    _VCR: {
+      active: false,
+      fixturePath: "./_fixtures",
+      mode: "cache"
+    },
     capture(func) {
-      commands.push((page, results) =>
-        page.evaluate(func).then(evaluation => results.push(evaluation))
-      );
-      return this;
+      const command = (page, results) =>
+        page.evaluate(func).then(evaluation => results.push(evaluation));
+
+      return { ...this, _commands: [...this._commands, command] };
     },
     captureUrl() {
-      commands.push((page, results) =>
-        Promise.resolve(results.push(page.url()))
-      );
-      return this;
+      const command = (page, results) =>
+        Promise.resolve(results.push(page.url()));
+      return { ...this, _commands: [...this._commands, command] };
     },
     click(selector, options = { button: "left", clickCount: 1, delay: 0 }) {
-      commands.push(page => page.click(selector, options));
-      return this;
+      const command = page => page.click(selector, options);
+      return { ...this, _commands: [...this._commands, command] };
     },
     clickAndWaitForNewTab(
       selector,
       options = { button: "left", clickCount: 1, delay: 0 }
     ) {
-      commands.push((page, _, browser) => {
+      const command = (page, _, browser) => {
         page.click(selector, options);
         return new Promise(resolve => {
           browser.on("targetcreated", resolve);
         });
-      });
-      return this;
+      };
+      return { ...this, _commands: [...this._commands, command] };
     },
     fillForm(formValues, options = {}) {
       const { submitForm = true, waitForPageLoad = true } = options;
@@ -88,60 +87,22 @@ const Wapiti = (function() {
         );
       }
       const selectors = Object.keys(formValues);
-      commands.push(page =>
+      const command = page =>
         foldP(
           selector => page.type(selector, formValues[selector]),
           selectors
-        ).then(
-          () =>
-            submitForm
-              ? page
-                  .evaluateHandle(firstInput => {
-                    const form = document.querySelector(firstInput).form;
-                    const submitElm = form.querySelector('[type="submit"]');
-                    if (submitElm) {
-                      submitElm.click();
-                      return "clicked";
-                    } else {
-                      const input = form.querySelector('input[type="text"]');
-                      if (input) {
-                        return input;
-                      }
-                      const password = form.querySelector(
-                        'input[type="password"]'
-                      );
-                      if (password) {
-                        return password;
-                      }
-                      return false;
-                    }
-                  }, selectors[0])
-                  .then(result => {
-                    if (result._remoteObject.value === "false") {
-                      // eslint-disable-next-line no-console
-                      console.warn("Warning: found no way to submit the form");
-                    } else if (result._remoteObject.value !== "clicked") {
-                      return result.press("Enter");
-                    }
-                    return;
-                  })
-                  .then(
-                    () =>
-                      waitForPageLoad
-                        ? page.waitForNavigation({ waitUntil: "networkidle0" })
-                        : page.waitFor(200)
-                  )
-              : page.waitFor(200)
-        )
-      );
-      return this;
+        ).then(() =>
+          submitFormAndWait(page, selectors, submitForm, waitForPageLoad)
+        );
+      return { ...this, _commands: [...this._commands, command] };
     },
     goto(url) {
-      commands.push(page => page.goto(url, { waitUntil: "networkidle0" }));
-      return this;
+      const command = page => page.goto(url, { waitUntil: "networkidle0" });
+
+      return { ...this, _commands: [...this._commands, command] };
     },
     nextTab() {
-      commands.push((page, _, browser) => {
+      const command = (page, _, browser) => {
         return browser.pages().then(pages => {
           if (pages.length === 1) {
             // eslint-disable-next-line no-console
@@ -155,11 +116,11 @@ const Wapiti = (function() {
               pages[(pages.findIndex(p => p === page) + 1) % pages.length]
           };
         });
-      });
-      return this;
+      };
+      return { ...this, _commands: [...this._commands, command] };
     },
     previousTab() {
-      commands.push((page, _, browser) => {
+      const command = (page, _, browser) => {
         return browser.pages().then(pages => {
           if (pages.length === 1) {
             // eslint-disable-next-line no-console
@@ -175,64 +136,92 @@ const Wapiti = (function() {
               ]
           };
         });
-      });
-      return this;
+      };
+      return { ...this, _commands: [...this._commands, command] };
     },
     puppeteer(fun) {
-      commands.push((page, _, browser) => Promise.resolve(fun(page, browser)));
-      return this;
+      const command = (page, _, browser) => Promise.resolve(fun(page, browser));
+      return { ...this, _commands: [...this._commands, command] };
     },
     run: function() {
-      const noSandbox = process.env.IN_CI || process.env.IN_DOCKER;
-      const options = noSandbox ? { args: ["--no-sandbox"] } : {};
-      return puppeteer
-        .launch(options)
-        .then(browser => Promise.all([browser, browser.pages()]))
-        .then(([browser, pages]) => [browser, pages[0]])
-        .then(
-          ([browser, page]) =>
-            VCR.active ? setupVCR(browser, page, VCR) : [browser, page]
-        )
-        .then(([browser, page]) => {
-          let results = [];
-          return foldP(
-            command =>
-              command(page, results, browser).then(data => {
-                if (data !== undefined && data.newWapitiPage !== undefined) {
-                  page = data.newWapitiPage;
-                }
-                return Promise.resolve();
-              }),
-            commands
-          )
-            .then(() => {
-              browser.close();
-
-              // Reset Wapiti
-              commands = [];
-              VCR.active = false;
-            })
-            .then(() =>
-              Promise.resolve(results.length === 1 ? results[0] : results)
-            );
-        });
+      return doRun(this._commands, this._VCR);
+    },
+    debugRun: function() {
+      return doRun(this._commands, this._VCR, {
+        headless: false,
+        closeBrowserOnEnd: false
+      });
     },
     setupVCR(options = {}) {
-      VCR.active = true;
-      if (options.fixturePath) {
-        VCR.fixturePath = options.fixturePath;
-      }
-      if (options.mode) {
-        VCR.mode = options.mode;
-      }
-      fs.ensureDir(VCR.fixturePath);
-      return this;
+      fs.ensureDir(this._VCR.fixturePath);
+      return {
+        ...this,
+        _VCR: {
+          ...this._VCR,
+          active: true,
+          fixturePath: options.fixturePath
+            ? options.fixturePath
+            : this._VCR.fixturePath,
+          mode: options.mode ? options.mode : this._VCR.mode
+        }
+      };
     },
     typeIn(selector, value) {
-      commands.push(page => page.type(selector, value));
-      return this;
+      const command = page => page.type(selector, value, { delay: 20 });
+      return { ...this, _commands: [...this._commands, command] };
     }
   };
-})();
+};
+
+const doRun = (commands, VCR, options = { closeBrowserOnEnd: true }) => {
+  const noSandbox = process.env.IN_CI || process.env.IN_DOCKER;
+  options = noSandbox ? { ...options, args: ["--no-sandbox"] } : options;
+  let browserRef;
+  return puppeteer
+    .launch(options)
+    .then(browser => {
+      browserRef = browser;
+      return Promise.all([browser, browser.pages()]);
+    })
+    .then(([browser, pages]) =>
+      Promise.all([browser, pages.length > 0 ? pages[0] : browser.newPage()])
+    )
+    .then(
+      ([browser, page]) =>
+        VCR.active ? setupVCR(browser, page, VCR) : [browser, page]
+    )
+    .then(([browser, page]) => {
+      let results = [];
+      return foldP(
+        command =>
+          command(page, results, browser).then(data => {
+            if (
+              data !== undefined &&
+              data !== null &&
+              data.newWapitiPage !== undefined
+            ) {
+              page = data.newWapitiPage;
+            }
+            return Promise.resolve();
+          }),
+        commands
+      )
+        .then(() => {
+          if (options.closeBrowserOnEnd) {
+            browser.close();
+          }
+        })
+        .then(() =>
+          Promise.resolve(results.length === 1 ? results[0] : results)
+        );
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      if (options.closeBrowserOnEnd) {
+        browserRef.close();
+      }
+    });
+};
 
 module.exports = Wapiti;

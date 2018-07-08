@@ -19,7 +19,7 @@ That way, you can safely commit you fixtures and have you tests run on your cont
 const Wapiti = require("wapiti");
 
 test("it should use the Wapiti fetch", () => {
-  return Wapiti.setupVCR()
+  return Wapiti().setupVCR()
     .goto("http://localhost:3000") // will try to fetch "https://api.github.com/users/github"
     .capture(() => document.querySelector("#result").textContent)
     .run()
@@ -35,7 +35,7 @@ Or if you prefer _async/await_
 const Wapiti = require("wapiti");
 
 test("it should use the Wapiti fetch", async () => {
-  const result = await Wapiti.setupVCR()
+  const result = await Wapiti().setupVCR()
     .goto("http://localhost:3000") // will try to fetch "https://api.github.com/users/github"
     .capture(() => document.querySelector("#result").textContent)
     .run();

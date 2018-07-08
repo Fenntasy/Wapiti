@@ -15,7 +15,7 @@ You then just have to _require_ it in your tests.
 const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", () => {
-  return Wapiti.goto("http://localhost:3000/index.html")
+  return Wapiti().goto("http://localhost:3000/index.html")
     .capture(() => document.querySelector("h1").textContent)
     .capture(() => document.querySelector("h2").textContent)
     .run()
@@ -31,7 +31,7 @@ Or if you prefer _async/await_
 const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", async () => {
-  const result = await Wapiti.goto("http://localhost:3000/index.html")
+  const result = await Wapiti().goto("http://localhost:3000/index.html")
     .capture(() => document.querySelector("h1").textContent)
     .capture(() => document.querySelector("h2").textContent)
     .run();

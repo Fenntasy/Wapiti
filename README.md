@@ -31,7 +31,7 @@ const path = require("path");
 const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", async () => {
-  const result = await Wapiti.goto("file://" + path.join(__dirname, "getH1.html"))
+  const result = await Wapiti().goto("file://" + path.join(__dirname, "getH1.html"))
     .capture(() => document.querySelector("h1").textContent)
     .capture(() => document.querySelector("h2").textContent)
     .run();
@@ -40,7 +40,7 @@ test("it should get the content of elements of the page", async () => {
 
 // And with VCR
 test("it should use the Wapiti fetch", async () => {
-  const result = await Wapiti.setupVCR()
+  const result = await Wapiti().setupVCR()
     .goto("file://" + path.join(__dirname, "fetch.html")) // will try to fetch "https://api.github.com/users/github"
     .capture(() => document.querySelector("#result").textContent)
     .run();

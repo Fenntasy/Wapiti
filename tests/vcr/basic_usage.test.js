@@ -3,10 +3,11 @@
 const path = require("path");
 const Wapiti = require("../../index");
 
-jest.setTimeout(12000);
+jest.setTimeout(30000);
 
 test("it should use the Wapiti fetch", async () => {
-  const result = await Wapiti.setupVCR()
+  const result = await Wapiti()
+    .setupVCR()
     .goto("file://" + path.join(__dirname, "fetch.html"))
     .capture(() => document.querySelector("#result").textContent)
     .run();
