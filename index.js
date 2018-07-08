@@ -167,7 +167,7 @@ const Wapiti = function() {
       };
     },
     typeIn(selector, value) {
-      const command = page => page.type(selector, value, { delay: 10 });
+      const command = page => page.type(selector, value, { delay: 20 });
       return { ...this, _commands: [...this._commands, command] };
     }
   };

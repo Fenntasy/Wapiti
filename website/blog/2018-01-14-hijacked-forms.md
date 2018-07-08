@@ -15,6 +15,8 @@ A major update that updates the API for `fillForm` and updates Puppeteer to 1.0.
 * Wapiti should be able to run on CI or inside Docker with the environnement variables IN_CI or IN_DOCKER
 * Docs are improved
 
+> Warning: This code in this article is valid only for the 2.0 branch
+
 ## What happened and why
 
 It was recently pointed to me (by the creator of the new logo) that there is a problem with the `fillForm` API.

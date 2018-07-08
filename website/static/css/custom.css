@@ -5,6 +5,17 @@ hr {
   opacity: 0.1;
 }
 
+.navPusher {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.docMainWrapper {
+  flex: 1;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 

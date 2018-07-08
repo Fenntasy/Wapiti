@@ -16,7 +16,7 @@ const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", async () => {
   expect.assertions(1);
-  return Wapiti.goto("http://localhost:3000")
+  return Wapiti().goto("http://localhost:3000")
     .clickAndWaitForNewTab("#link")
     .nextTab()
     .capture(() => document.querySelector("h1").textContent)
@@ -36,7 +36,7 @@ const Wapiti = require("wapiti");
 
 test("it should get the content of elements of the page", async () => {
   expect.assertions(1);
-  const result = await Wapiti.goto("http://localhost:3000")
+  const result = await Wapiti().goto("http://localhost:3000")
     .clickAndWaitForNewTab("#link")
     .nextTab()
     .capture(() => document.querySelector("h1").textContent)

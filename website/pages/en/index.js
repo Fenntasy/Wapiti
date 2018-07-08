@@ -44,12 +44,13 @@ class HomeSplash extends React.Component {
 
               <a
                 className="github-button"
-                href={siteConfig.repoUrl}
+                href={`https://github.com/${siteConfig.repo}`}
                 data-icon="octicon-star"
                 data-count-href="/Fenntasy/Wapiti/stargazers"
                 data-show-count={true}
                 data-count-aria-label="# stargazers on GitHub"
                 aria-label="Star this project on GitHub"
+                data-size="large"
               >
                 Star
               </a>
