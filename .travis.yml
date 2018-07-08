@@ -8,6 +8,7 @@ addons:
 node_js:
   - "8"
   - "9"
+  - "10"
 env:
   - IN_CI=true
 cache:
