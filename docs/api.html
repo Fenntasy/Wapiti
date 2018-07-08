@@ -6,40 +6,46 @@
           };
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>API</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" name="methods"></a><a href="#methods" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h2>
 <ul>
-<li><a href="#wapiticapturefunc">Wapiti.capture(func)</a></li>
-<li><a href="#wapiticaptureurl">Wapiti.captureUrl()</a></li>
-<li><a href="#wapiticlickselector">Wapiti.click(selector)</a></li>
-<li><a href="#wapiticlickandwaitfornewtabselector">Wapiti.clickAndWaitForNewTab(selector)</a></li>
-<li><a href="#wapitifillformdata-options">Wapiti.fillForm(data, options)</a></li>
-<li><a href="#wapitigotourl">Wapiti.goto(url)</a></li>
-<li><a href="#wapitinexttab">Wapiti.nextTab()</a></li>
-<li><a href="#wapitiprevioustab">Wapiti.previousTab()</a></li>
-<li><a href="#wapitipuppeteerfunc">Wapiti.puppeteer(func)</a></li>
-<li><a href="#wapitirun">Wapiti.run()</a></li>
-<li><a href="#wapitisetupvcroptions">Wapiti.setupVCR(options)</a></li>
-<li><a href="#wapititypeinselector-value">Wapiti.typeIn(selector, value)</a></li>
+<li><a href="#capturefunc">capture(func)</a></li>
+<li><a href="#captureurl">captureUrl()</a></li>
+<li><a href="#clickselector">click(selector)</a></li>
+<li><a href="#clickandwaitfornewtabselector">clickAndWaitForNewTab(selector)</a></li>
+<li><a href="#debugrun">debugRun()</a></li>
+<li><a href="#fillformdata-options">fillForm(data, options)</a></li>
+<li><a href="#gotourl">goto(url)</a></li>
+<li><a href="#nexttab">nextTab()</a></li>
+<li><a href="#previoustab">previousTab()</a></li>
+<li><a href="#puppeteerfunc">puppeteer(func)</a></li>
+<li><a href="#run">run()</a></li>
+<li><a href="#setupvcroptions">setupVCR(options)</a></li>
+<li><a href="#typeinselector-value">typeIn(selector, value)</a></li>
 </ul>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapiticapturefunc"></a><a href="#wapiticapturefunc" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.capture(func)</h4>
+<h4><a class="anchor" aria-hidden="true" name="capturefunc"></a><a href="#capturefunc" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>capture(func)</h4>
 <p>Execute <code>func</code> on the current page and add an entry to the end result.
 If only one <code>capture</code> call is done, the end result will be its value.
 If several calls are made, the end result will be an array with all captures.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapiticaptureurl"></a><a href="#wapiticaptureurl" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.captureUrl()</h4>
+<h4><a class="anchor" aria-hidden="true" name="captureurl"></a><a href="#captureurl" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>captureUrl()</h4>
 <p>Convenience function for getting the URL of the page and adding it to the captures.
-Functionnally equivalent to <code>Wapiti.capture(() =&gt; document.location.href)</code>.</p>
+Functionnally equivalent to <code>capture(() =&gt; document.location.href)</code>.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapiticlickselector"></a><a href="#wapiticlickselector" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.click(selector)</h4>
+<h4><a class="anchor" aria-hidden="true" name="clickselector"></a><a href="#clickselector" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>click(selector)</h4>
 <p>Click on the first result returned by <code>document.querySelector(selector)</code>.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapiticlickandwaitfornewtabselector"></a><a href="#wapiticlickandwaitfornewtabselector" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.clickAndWaitForNewTab(selector)</h4>
+<h4><a class="anchor" aria-hidden="true" name="clickandwaitfornewtabselector"></a><a href="#clickandwaitfornewtabselector" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clickAndWaitForNewTab(selector)</h4>
 <p>Click on the first result returned by <code>document.querySelector(selector)</code> and wait for a tab to be opened before doing the rest of operations.
 Beware that it will wait until your test timeout if no new tab is opened.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitifillformdata-options"></a><a href="#wapitifillformdata-options" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.fillForm(data, options)</h4>
+<h4><a class="anchor" aria-hidden="true" name="debugrun"></a><a href="#debugrun" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>debugRun()</h4>
+<p>Will do the same thing as <a href="#run"><code>run</code></a> but with a non headless browser that will not close itself when the test is ended.</p>
+<p><strong>This method is for debugging purposes and should not be used in production.</strong></p>
+<hr>
+<h4><a class="anchor" aria-hidden="true" name="fillformdata-options"></a><a href="#fillformdata-options" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fillForm(data, options)</h4>
 <p>Handle the work of filling a form and submiting it.
+It will only submit the form if Wapiti can find an <code>input</code> or <code>button</code> with <code>type=&quot;submit&quot;</code> inside the form.
 <code>data</code> is an object with input selectors as key and the desired input value as value.</p>
-<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+<pre><code class="hljs css javascript">Wapiti().goto(<span class="hljs-string">"http://localhost"</span>))
   .fillForm({
     <span class="hljs-string">"#firstInput"</span>: <span class="hljs-string">"test1"</span>, <span class="hljs-comment">// will result in &lt;input id="firstInput" value="test1" /&gt;</span>
     <span class="hljs-string">".secondInput"</span>: <span class="hljs-string">"test2"</span> <span class="hljs-comment">// will result in &lt;input class="secondInput" value="test2" /&gt;</span>
@@ -57,41 +63,41 @@ Beware that it will wait until your test timeout if no new tab is opened.</p>
 </tbody>
 </table>
 <p>So if you want to fill in a form where the submit is prevented from JavaScript (<a href="/Wapiti/blog/2018/01/13/hijacked-forms.html">more in-depth explanation</a>):</p>
-<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+<pre><code class="hljs css javascript">Wapiti().goto(<span class="hljs-string">"http://localhost"</span>))
   .fillForm({
     <span class="hljs-string">"#firstInput"</span>: <span class="hljs-string">"test1"</span>,
     <span class="hljs-string">".secondInput"</span>: <span class="hljs-string">"test2"</span>
   }, { <span class="hljs-attr">waitForPageLoad</span>: <span class="hljs-literal">false</span> })
 </code></pre>
 <blockquote>
-<p>⚠️  <code>waitForPageLoad</code> depends on <code>submitForm</code> and will be ignored if <code>submitForm</code> is false.</p>
+<p>⚠️ <code>waitForPageLoad</code> depends on <code>submitForm</code> and will be ignored if <code>submitForm</code> is false.</p>
 </blockquote>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitigotourl"></a><a href="#wapitigotourl" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.goto(url)</h4>
+<h4><a class="anchor" aria-hidden="true" name="gotourl"></a><a href="#gotourl" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>goto(url)</h4>
 <p>Go to a URL and resolve when there is no more network requests.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitinexttab"></a><a href="#wapitinexttab" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.nextTab()</h4>
+<h4><a class="anchor" aria-hidden="true" name="nexttab"></a><a href="#nexttab" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>nextTab()</h4>
 <p>Change tab by going to the next one.
 If the browser was already on the last tab, it will go back to the first one.
 If there is only one tab open, it will not do anything but display a warning.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitiprevioustab"></a><a href="#wapitiprevioustab" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.previousTab()</h4>
+<h4><a class="anchor" aria-hidden="true" name="previoustab"></a><a href="#previoustab" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>previousTab()</h4>
 <p>Change tab by going to the previous one.
 If the browser was already on the first tab, it will go to the last one.
 If there is only one tab open, it will not do anything but display a warning.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitipuppeteerfunc"></a><a href="#wapitipuppeteerfunc" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.puppeteer(func)</h4>
+<h4><a class="anchor" aria-hidden="true" name="puppeteerfunc"></a><a href="#puppeteerfunc" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>puppeteer(func)</h4>
 <p>Allows you to use the puppeteer API yourself.
 <code>func</code> will be passed the <code>page</code> object and the <code>browser</code> and you can use any method of the <a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md">puppeteer API</a>.</p>
 <p>In most cases, you should not need to wait for something with Wapiti (the defaults try to be enough) but if you need it, you can do it like this:</p>
-<pre><code class="hljs css javascript">Wapiti.goto(<span class="hljs-string">"http://localhost"</span>))
+<pre><code class="hljs css javascript">Wapiti().goto(<span class="hljs-string">"http://localhost"</span>))
   .puppeteer(<span class="hljs-function"><span class="hljs-params">page</span> =&gt;</span> page.waitFor(<span class="hljs-number">2000</span>))
 </code></pre>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitirun"></a><a href="#wapitirun" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.run()</h4>
+<h4><a class="anchor" aria-hidden="true" name="run"></a><a href="#run" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>run()</h4>
 <p>Really start the chain of events and return a promise with that should resolve with either the result of the <code>capture</code> call or an array with the results of the <code>capture</code> calls.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapitisetupvcroptions"></a><a href="#wapitisetupvcroptions" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.setupVCR(options)</h4>
+<h4><a class="anchor" aria-hidden="true" name="setupvcroptions"></a><a href="#setupvcroptions" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>setupVCR(options)</h4>
 <p>Use the VCR for this test.</p>
 <p><code>options</code> can be omited and defaults to:</p>
 <pre><code class="hljs css javascript">{
@@ -107,6 +113,12 @@ Furthermore, the promise produced by <code>fetch</code> can only use the <code>j
 Please make an issue if you need something else.</p>
 <p><code>headerBlacklist</code> is an array of keys that will be ignored in the fixtures and the request (whichever value they have will not be taken into account). These keys must be lowercase.</p>
 <hr>
-<h4><a class="anchor" aria-hidden="true" name="wapititypeinselector-value"></a><a href="#wapititypeinselector-value" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Wapiti.typeIn(selector, value)</h4>
-<p>Will insert <code>value</code> in the input found by <code>selector</code>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="debug.html">← Debug your pages</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/Wapiti/" class="nav-home"><img src="/Wapiti/img/favicon.png" alt="Wapiti" width="66" height="58"/></a><div><h5>Docs</h5><a href="/Wapiti/docs/install.html">Getting Started</a><a href="/Wapiti/docs/vcr.html">Guides</a><a href="/Wapiti/docs/api.html">API Reference</a></div><div><h5>More</h5><a href="https://github.com/">GitHub</a><a class="github-button" href="git@github.com:Fenntasy/Wapiti.git" data-icon="octicon-star" data-count-href="/Fenntasy/Wapiti/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section></footer></div></body></html>
+<h4><a class="anchor" aria-hidden="true" name="typeinselector-value"></a><a href="#typeinselector-value" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>typeIn(selector, value)</h4>
+<p>Will insert <code>value</code> in the input found by <code>selector</code>.
+Strokes will be typed with 16ms between each of them to prevent an eventual race condition.
+If you need to change this delay, you can use this method:</p>
+<pre><code class="hljs css javascript">Wapiti().goto(<span class="hljs-string">"http://localhost"</span>))
+  .puppeteer(<span class="hljs-function"><span class="hljs-params">page</span> =&gt;</span> page.type(selector, value, {<span class="hljs-attr">delay</span>: <span class="hljs-number">1000</span>}));
+</code></pre>
+<p>This 16ms delay is chosen to match with the 16ms available for 60 frame per second rendering.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="debug.html">← Debug your pages</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/Wapiti/" class="nav-home"><img src="/Wapiti/img/favicon.png" alt="Wapiti" width="66" height="58"/></a><div><h5>Docs</h5><a href="/Wapiti/docs/install.html">Getting Started</a><a href="/Wapiti/docs/vcr.html">Guides</a><a href="/Wapiti/docs/api.html">API Reference</a></div><div><h5>More</h5><a href="https://github.com/Fenntasy/Wapiti">GitHub</a><a class="github-button" href="https://github.com/Fenntasy/Wapiti" data-icon="octicon-star" data-count-href="/Fenntasy/Wapiti/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star Wapiti on GitHub">Star</a></div></section></footer></div></body></html>
