@@ -1,5 +1,7 @@
 # Wapiti
 
+Warning: this package is no longer maintained, you can have a look at [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer) for similar functionalities
+
 [![Build Status](https://travis-ci.org/Fenntasy/Wapiti.svg?branch=master)](https://travis-ci.org/Fenntasy/Wapiti) [Documentation](https://Fenntasy.github.io/Wapiti)
 
 [![](https://fenntasy.github.io/Wapiti/img/wapiti.png)](https://Fenntasy.github.io/Wapiti)
